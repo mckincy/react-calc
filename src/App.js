@@ -74,7 +74,7 @@ class App extends Component {
         const reg = /^([\d]+(\.)?[\d]*)?$/
         reg.test(e.target.value) ? this.pushNumberStack(parseFloat(e.target.value)) : this.pushOperStack(
           e.target.value)
-      }.bind(this)) //为回调函数绑定this,指向App component
+      }.bind(this)) //为回调函数绑定this,指向App component。官方文档是在constructor中this.handleClick = this.handleClick.bind(this);
     })
   }
   render() {
