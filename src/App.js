@@ -60,6 +60,7 @@ class App extends Component {
   compute = () => {
     let op = this.opMap[this.state.operStack.pop()] //按缓存计算符生成计算函数
     let result = op.call(this, ...this.state.numberStack) //生成计算结果
+    // let result = op(...this.state.numberStack) 
     this.setState({
       numberStack:[result], //原始js是置零清空栈
       screen: result
@@ -67,13 +68,13 @@ class App extends Component {
   }
   init = () => {
     document.querySelectorAll('input').forEach((e) => { // 循环绑定事件
-      let self = this
-      e.addEventListener('click', function () {
+      e.addEventListener('click', function (e) {
+        console.log(this, e.target.value)
         //正则匹配数字
         const reg = /^([\d]+(\.)?[\d]*)?$/
-        reg.test(this.value) ? self.pushNumberStack(parseFloat(this.value)) : self.pushOperStack(
-          this.value)
-      })
+        reg.test(e.target.value) ? this.pushNumberStack(parseFloat(e.target.value)) : this.pushOperStack(
+          e.target.value)
+      }.bind(this)) //为回调函数绑定this,指向App component
     })
   }
   render() {
